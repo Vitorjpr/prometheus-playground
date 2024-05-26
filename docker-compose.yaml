@@ -1,21 +1,20 @@
 version: '3.8'
-
 services:
   prometheus:
     image: prom/prometheus:latest
     ports:
-      - "9090:9090"
+    - "9090:9090"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-
+    - ./prometheus.yml:/etc/prometheus/prometheus.yml
   python_app:
-    build: .
+    build: ./python/
     ports:
-      - "8899:8899"
+    - "8899:8899"
     depends_on:
-      - prometheus
-    volumes:
-      - .:/app
-  
-  go_app:
-    build:
+    - prometheus
+  golang_app:
+    build: ./go/
+    depends_on:
+    - prometheus
+    ports:
+    - "7788:7788"
